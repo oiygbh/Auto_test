@@ -40,6 +40,7 @@ jobs:
         run: |
           curl -X POST -H 'Content-type: application/json' --data \
           '{
+            "channel": "#监控报警测试群",  # 指定目标频道
             "text": "Apifox 测试完成，查看报告：[GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           }' \
           https://imtest.fc.plus/api/third/send_slack_robot  # 使用你的Slack机器人链接
