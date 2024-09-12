@@ -1,35 +1,46 @@
-name: Automated API Tests
+name: Apifox CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Set up Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-    - name: Install Apifox CLI
-      run: npm install -g apifox-cli
+      - name: Install Apifox CLI
+        run: npm install -g apifox-cli
 
-    - name: Running Test Scenario
-      run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -b
-      
-    - name: Send report to Slack
-      env:
-          SLACK_WEBHOOK_URL: ${{ https://imtest.fc.plus/api/third/send_slack_robot }}
-      run: |
-          curl -X POST -H 'Content-type: application/json' --data '{
-            "text": "Apifox 自动化测试报告",
-            "attachments": [
-              {
-                "title": "测试报告",
-                "text": "'"$(cat path/to/your/test_report.json)"'"
-              }
-            ]
-          }' $SLACK_WEBHOOK_URL
+      - name: Running Test Scenario
+        env:
+          APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}
+        run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -o ./report.html  # 指定报告输出路径
+
+      - name: Archive test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: apifox-test-report
+          path: ./report.html
+
+      - name: Send report link to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data \
+          '{
+            "text": "Apifox 测试完成，查看报告：[GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          }' \
+          $SLACK_WEBHOOK_URL
