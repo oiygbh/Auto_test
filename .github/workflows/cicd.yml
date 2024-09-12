@@ -31,7 +31,7 @@ jobs:
         run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -o ./report.html  # 生成 HTML 报告
 
       - name: Archive test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: apifox-test-report
           path: ./report.html
