@@ -18,7 +18,7 @@ jobs:
       run: npm install -g apifox-cli
 
     - name: Running Test Scenario
-      run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543325 -n 1 -r html,cli
+      run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -b
       
     - name: Send report to Slack
       env:
