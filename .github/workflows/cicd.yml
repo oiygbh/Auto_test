@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # 手动触发选项
+  workflow_dispatch:  # 支持手动触发
 
 jobs:
   test:
@@ -15,26 +15,26 @@ jobs:
     
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2  # 从仓库中检出代码
 
       - name: Set up Node.js environment
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '14'  # 设置Node.js环境
 
       - name: Install Apifox CLI
-        run: npm install -g apifox-cli
+        run: npm install -g apifox-cli  # 安装 Apifox CLI
 
       - name: Running Test Scenario
         env:
-          APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}
-        run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -o ./report.html  # 生成 HTML 报告
+          APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}  # 使用 GitHub Secret
+        run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli  # 移除 -o 选项
 
       - name: Archive test results
         uses: actions/upload-artifact@v3
         with:
-          name: apifox-test-report
-          path: ./report.html
+          name: apifox-test-report  # 存储生成的 HTML 报告为工件
+          path: ./report.html  # 假设报告生成在当前目录下
 
       - name: Send report link to Slack
         run: |
