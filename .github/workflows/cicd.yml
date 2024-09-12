@@ -28,7 +28,8 @@ jobs:
       - name: Running Test Scenario
         env:
           APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}  # 使用 GitHub Secret
-        run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli  # 移除 -o 选项
+        run: apifox run --access-token $APIFOX_ACCESS_TOKEN --collection-id 5070833 --environment-id 24543324 --report-format html,cli
+          ls -al  # 列出文件以确认报告是否生成
 
       - name: Archive test results
         uses: actions/upload-artifact@v3
