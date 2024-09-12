@@ -7,7 +7,7 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # 添加手动触发选项
+  workflow_dispatch:  # 手动触发选项
 
 jobs:
   test:
@@ -28,7 +28,7 @@ jobs:
       - name: Running Test Scenario
         env:
           APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}
-        run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -o ./report.html  # 指定报告输出路径
+        run: apifox run --access-token $APIFOX_ACCESS_TOKEN -t 5070833 -e 24543324 -n 1 -r html,cli -o ./report.html  # 生成 HTML 报告
 
       - name: Archive test results
         uses: actions/upload-artifact@v2
@@ -37,11 +37,9 @@ jobs:
           path: ./report.html
 
       - name: Send report link to Slack
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' --data \
           '{
             "text": "Apifox 测试完成，查看报告：[GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           }' \
-          $SLACK_WEBHOOK_URL
+          https://imtest.fc.plus/api/third/send_slack_robot  # 使用你的Slack机器人链接
