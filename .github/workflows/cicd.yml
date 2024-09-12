@@ -40,6 +40,9 @@ jobs:
         run: |
           curl -X POST -H "Content-type: application/json" --data '{
           "channel": "#监控报警测试群",
-          "text": "Apifox 测试完成，查看报告：[下载报告](https://github.com/oiygbh/Auto_test/actions/runs/10832245695)"
+          "text": "Apifox 测试完成，查看报告：[下载报告](https://github.com/oiygbh/Auto_test/actions/runs/10832245695)",
+          "OperationID": "unique_operation_id",  # 添加一个唯一操作标识符
+          "IsGroup": true  # 指定这是发送到群组
           }' https://imtest.fc.plus/api/third/send_slack_robot
+
 
