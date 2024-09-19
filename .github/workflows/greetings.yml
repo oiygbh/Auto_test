@@ -30,13 +30,13 @@ jobs:
         git commit -m "Upload Apifox report"
         git push
 
-          - name: Send report to WeChat
-        if: always()
-        run: |
-          REPORT_URL="https://<oiygbh>.github.io/<Auto_test>/report.html"
-          curl -X POST -H "Content-Type: application/json" -d '{
-            "msgtype": "text",
-            "text": {
-              "content": "Apifox 测试报告已生成，请查看:"https://<oiygbh>.github.io/<Auto_test>/report.html"
-            }
-          }' https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3bf5c6dc-cdfa-49e8-a313-1a82b212d460
+    - name: Send report to WeChat
+      if: always()
+      run: |
+        REPORT_URL="https://<oiygbh>.github.io/<Auto_test>/report.html"
+        curl -X POST -H "Content-Type: application/json" -d '{
+        "msgtype": "text",
+        "text": {
+            "content": "Apifox 测试报告已生成，请查看:"https://<oiygbh>.github.io/<Auto_test>/report.html"
+          }
+        }' https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3bf5c6dc-cdfa-49e8-a313-1a82b212d460
