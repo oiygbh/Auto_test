@@ -19,3 +19,17 @@ jobs:
 
     - name: Running Test Scenario
       run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459794/detail?token=xGzFapMElCmSrBpASjzBK0 -r html,cli
+
+    - name: Archive test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: apifox-test-report  # 存储生成的 HTML 报告为工件
+        path: ./report.html  # 假设报告生成在当前目录下
+
+    - name: Send report
+      run: |
+        curl -X POST -H 'Content-type: application/json' --data \
+          '{
+            "text": "Apifox 测试完成，查看报告：[GitHub Actions](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          }' \
+          https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3bf5c6dc-cdfa-49e8-a313-1a82b212d460
