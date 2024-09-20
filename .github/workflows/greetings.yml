@@ -18,8 +18,8 @@ jobs:
       run: npm install -g apifox-cli
 
     - name: Running Test Scenario
-      run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459924/detail?token=xl50my7vq2lNTWOZnBn2SV -r html,cli -o report.html
-
+      run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459924/detail?token=xl50my7vq2lNTWOZnBn2SV -r html,cli --out-file report.html
+      
     - name: Upload report to GitHub Pages
       run: |
         mkdir -p docs  # 创建 docs 文件夹
