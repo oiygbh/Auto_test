@@ -18,7 +18,7 @@ jobs:
       run: npm install -g apifox-cli
 
     - name: Running Test Scenario
-      run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459930/detail?token=xswNjUUtT4CpBlT-Cw8lZS -r html,cli --out-file report.html
+      run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459930/detail?token=xswNjUUtT4CpBlT-Cw8lZS -r html,cli --out-file report
       
     - name: Upload report to GitHub Pages
       run: |
