@@ -18,25 +18,4 @@ jobs:
       run: npm install -g apifox-cli
 
     - name: Running Test Scenario
-      run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459930/detail?token=xswNjUUtT4CpBlT-Cw8lZS -r html,cli --out-file report
-      
-    - name: Upload report to GitHub Pages
-      run: |
-        mkdir -p docs  # 创建 docs 文件夹
-        mv report.html docs/  # 移动报告到 docs 文件夹
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "action@github.com"
-        git add docs/report.html
-        git commit -m "Upload Apifox report"
-        git push
-
-    - name: Send report to WeChat
-      if: always()
-      run: |
-        REPORT_URL="https://oiygbh.github.io/Auto_test/report.html"
-        curl -X POST -H "Content-Type: application/json" -d '{
-        "msgtype": "text",
-        "text": {
-            "content": "Apifox 测试报告已生成，请查看: '"$REPORT_URL"'"
-          }
-        }' https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=3bf5c6dc-cdfa-49e8-a313-1a82b212d460
+      run: apifox run https://api.apifox.com/api/v1/projects/4544385/api-test/ci-config/459930/detail?token=xswNjUUtT4CpBlT-Cw8lZS -r html,cli --upload-report
